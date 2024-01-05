@@ -1,22 +1,22 @@
-# from langchain.text_splitter import RecursiveCharacterTextSplitter
-# from langchain_community.document_loaders import WebBaseLoader
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain_community.document_loaders import WebBaseLoader
 
-# loader = WebBaseLoader("https://lilianweng.github.io/posts/2023-06-23-agent/")
-# data = loader.load()
+loader = WebBaseLoader("https://lilianweng.github.io/posts/2023-06-23-agent/")
+data = loader.load()
 
-# text_splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=0)
-# all_splits = text_splitter.split_documents(data)
+text_splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=0)
+all_splits = text_splitter.split_documents(data)
 
 
-# from langchain_community.embeddings import GPT4AllEmbeddings
-# from langchain_community.vectorstores import Chroma
+from langchain_community.embeddings import GPT4AllEmbeddings
+from langchain_community.vectorstores import Chroma
 
-# vectorstore = Chroma.from_documents(documents=all_splits, embedding=GPT4AllEmbeddings())
+vectorstore = Chroma.from_documents(documents=all_splits, embedding=GPT4AllEmbeddings())
 
-# question = "What are the approaches to Task Decomposition?"
-# docs = vectorstore.similarity_search(question)
-# # print(len(docs))
-# # print(docs[0])
+question = "What are the approaches to Task Decomposition?"
+docs = vectorstore.similarity_search(question)
+# print(len(docs))
+# print(docs[0])
 
 # ########################################### LLaMA2 ###########################################
 
@@ -40,40 +40,40 @@ print(type(output))
 
 
 
-# ########################################### GPT4All ###########################################
-# from langchain_community.llms import GPT4All
+########################################### GPT4All ###########################################
+from langchain_community.llms import GPT4All
 
-# gpt4all = GPT4All(
-#     # model="C://Hiwi_Project//langchain-local-model//models//gpt4all-falcon-q4_0.gguf",
-#     model=".//models//gpt4all-falcon-q4_0.gguf",
-#     max_tokens=2048,
-# )
+gpt4all = GPT4All(
+    # model="C://Hiwi_Project//langchain-local-model//models//gpt4all-falcon-q4_0.gguf",
+    model=".//models//gpt4all-falcon-q4_0.gguf",
+    max_tokens=2048,
+)
 
-# output = gpt4all.invoke("Simulate a rap battle between Stephen Colbert and John Oliver")
-# print(output)
-# print(type(output))
+output = gpt4all.invoke("Simulate a rap battle between Stephen Colbert and John Oliver")
+print(output)
+print(type(output))
 
-# ########################################### Using in a chain ###########################################
-# from langchain_core.output_parsers import StrOutputParser
-# from langchain_core.prompts import PromptTemplate
+########################################### Using in a chain ###########################################
+from langchain_core.output_parsers import StrOutputParser
+from langchain_core.prompts import PromptTemplate
 
-# # Prompt
-# prompt = PromptTemplate.from_template(
-#     "Summarize the main themes in these retrieved docs: {docs}"
-# )
+# Prompt
+prompt = PromptTemplate.from_template(
+    "Summarize the main themes in these retrieved docs: {docs}"
+)
 
-# # Chain
-# def format_docs(docs):
-#     return "\n\n".join(doc.page_content for doc in docs)
+# Chain
+def format_docs(docs):
+    return "\n\n".join(doc.page_content for doc in docs)
 
 
-# chain = {"docs": format_docs} | prompt | llm | StrOutputParser()
+chain = {"docs": format_docs} | prompt | llm | StrOutputParser()
 
-# # Run
-# question = "What are the approaches to Task Decomposition?"
-# docs = vectorstore.similarity_search(question)
-# chain.invoke(docs)
+# Run
+question = "What are the approaches to Task Decomposition?"
+docs = vectorstore.similarity_search(question)
+chain.invoke(docs)
 
-# output = chain.invoke(docs)
-# print(output)
-# print(type(output))
+output = chain.invoke(docs)
+print(output)
+print(type(output))
