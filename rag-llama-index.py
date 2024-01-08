@@ -50,6 +50,8 @@ set_global_tokenizer(
 from llama_index.embeddings import HuggingFaceEmbedding
 
 embed_model = HuggingFaceEmbedding(model_name="BAAI/bge-small-en-v1.5")
+text_embedding = embed_model.get_text_embedding("hello world")
+print(len(text_embedding))
 
 # create a service context
 service_context = ServiceContext.from_defaults(
