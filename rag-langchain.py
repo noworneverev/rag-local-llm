@@ -125,3 +125,15 @@ chain = (
 # Run
 for output in chain.stream(input_data):
     print(output, end="", flush=True)
+
+########################################### Q&A with retrieval ###########################################
+retriever = vectorstore.as_retriever()
+qa_chain = (
+    {"context": retriever | format_docs, "question": RunnablePassthrough()}
+    | rag_prompt
+    | llm
+    | StrOutputParser()
+)
+
+output = qa_chain.invoke(question)
+print(output)
