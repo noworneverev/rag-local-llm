@@ -9,12 +9,15 @@ from llama_index.llms.llama_utils import (
     completion_to_prompt,
 )
 
+# model_path = './models/llama-2-7b-chat.Q4_K_M.gguf'
+model_path = './models/mistral-7b-instruct-v0.2.Q4_K_M.gguf'
+
 llm = LlamaCPP(
     # You can pass in the URL to a GGML model to download it automatically
     # model_url=model_url,
     # optionally, you can set the path to a pre-downloaded model instead of model_url
     # model_path='./models/llama-2-13b-chat.Q5_0.gguf',
-    model_path='./models/llama-2-7b-chat.Q4_K_M.gguf',
+    model_path=model_path,
     temperature=0.1,
     max_new_tokens=256,
     # llama2 has a context window of 4096 tokens, but we set it lower to allow for some wiggle room
