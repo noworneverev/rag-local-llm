@@ -1,7 +1,9 @@
+import sys
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.document_loaders import WebBaseLoader
 
-model_path ='./models/llama-2-7b-chat.Q4_K_M.gguf'
+# model_path ='./models/llama-2-7b-chat.Q4_K_M.gguf'
+model_path = './models/mistral-7b-instruct-v0.2.Q4_K_M.gguf'
 
 loader = WebBaseLoader("https://lilianweng.github.io/posts/2023-06-23-agent/")
 data = loader.load()
@@ -69,13 +71,17 @@ prompt = PromptTemplate.from_template(
 def format_docs(docs):
     return "\n\n".join(doc.page_content for doc in docs)
 
-
 chain = {"docs": format_docs} | prompt | llm | StrOutputParser()
 
 # Run
 question = "What are the approaches to Task Decomposition?"
 docs = vectorstore.similarity_search(question)
-chain.invoke(docs)
 
-output = chain.invoke(docs)
-print(output)
+for output in chain.stream(docs):
+    print(output, end="", flush=True)    
+# chain.invoke(docs)
+
+# output = chain.invoke(docs)
+# print(output)
+
+
