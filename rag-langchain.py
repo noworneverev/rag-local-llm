@@ -2,8 +2,8 @@ import sys
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.document_loaders import WebBaseLoader
 
-# model_path ='./models/llama-2-7b-chat.Q4_K_M.gguf'
-model_path = './models/mistral-7b-instruct-v0.2.Q4_K_M.gguf'
+model_path ='./models/llama-2-7b-chat.Q4_K_M.gguf'
+# model_path = './models/mistral-7b-instruct-v0.2.Q4_K_M.gguf'
 
 loader = WebBaseLoader("https://lilianweng.github.io/posts/2023-06-23-agent/")
 data = loader.load()
@@ -79,9 +79,49 @@ docs = vectorstore.similarity_search(question)
 
 for output in chain.stream(docs):
     print(output, end="", flush=True)    
-# chain.invoke(docs)
 
 # output = chain.invoke(docs)
 # print(output)
 
+########################################### Q&A ###########################################
 
+from langchain import hub
+
+rag_prompt = hub.pull("rlm/rag-prompt")
+rag_prompt.messages
+
+from langchain_core.runnables import RunnablePassthrough, RunnablePick
+
+# Chain
+chain = (
+    RunnablePassthrough.assign(context=RunnablePick("context") | format_docs)
+    | rag_prompt
+    | llm
+    | StrOutputParser()
+)
+
+# Run
+input_data = {"context": docs, "question": question}
+
+for output in chain.stream(input_data):
+    print(output, end="", flush=True)
+
+# output = chain.invoke(input_data)
+# print(output)
+    
+########################################### a prompt specifically for LLaMA ###########################################
+# Prompt
+rag_prompt_llama = hub.pull("rlm/rag-prompt-llama")
+print(rag_prompt_llama.messages)
+
+# Chain
+chain = (
+    RunnablePassthrough.assign(context=RunnablePick("context") | format_docs)
+    | rag_prompt_llama
+    | llm
+    | StrOutputParser()
+)
+
+# Run
+for output in chain.stream(input_data):
+    print(output, end="", flush=True)
