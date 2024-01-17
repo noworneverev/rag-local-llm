@@ -14,8 +14,14 @@ venv\scripts\activate
 ```bash
 pip install -r requirements.txt
 ```
-## Usage◾
-As the LLM model is too large, it is not included in the repository. I recommend running the `rag-llama-index.ipynb` notebook first, which will download the model from HuggingFace and save it to your local directory. Then you can run all notebooks and scripts in the repository.
+## Usage
+Due to the large size of the LLM model, it's not included in the repository. Please download it from this [link](https://huggingface.co/TheBloke/Llama-2-7B-Chat-GGUF/resolve/main/llama-2-7b-chat.Q4_K_M.gguf) and place it in the `models` folder. Feel free to use a different model, but remember to update the path in `config.py` accordingly.
+
+
+Default model path in `config.py`:
+```
+MODEL_PATH = './models/llama-2-7b-chat.Q4_K_M.gguf'
+```
 
 ## Comparing LangChain and LlamaIndex
 
@@ -23,24 +29,17 @@ As the LLM model is too large, it is not included in the repository. I recommend
 || LangChain    | LlamaIndex |
 |--| -------- | ------- |
 ||Interact with LLMs - Modular and more flexible|Data framework for LLMs - Empower RAG|
-|**Data**|◾Standard formats like CSV, PDF, TXT<br>◾Mostly focus on Vector Stores||
-|**LLM Interaction**|◾Prompt templates to faciliate interactions<br>◾Very flexible, easily defining chains and using different modules. Choose the promptying strategy, model, and output parser from many options.<br>◾Can directly interact with LLMs and create chains without the need to have additional data||
-|**Optimizations**|||
-|**Querying**|◾Use retriever functions||
-|**Agents**|◾LangSmith||
-|**Documentation**|◾Easy to debug<br>◾Easy to find concepts and understand the function usage||
-|**Pricing**|Free||
-|**Scope**| ◾Broader (building blocks)<br>◾aims to standardize and make interoperable interactions with LLMs for a wide range of use cases  | ◾more specialized for document search, summarization, and management |
-|**Interface**| ◾lower level, more flexible and configureable | ◾new updates make interface simpler and more intuitive     |
-|**Storage/Indexing**| ◾in memory, vectordbs, simpler | ◾customize document structure    |
-|**Querying**| ◾more generic through retrievers    | ◾dedicated support for querying indexes <br> ◾response synthesis    |
-|| March    | $420    |
-|| March    | $420    |
+|**Data**|- Standard formats like CSV, PDF, TXT<br>- Mostly focus on Vector Stores|- LlamaHub with dedicated data loaders from different sources. (Discord, Slack, Notion,...<br>- Efficient indexing and retrieving + easily add new data points without calculating embeddings for all<br>- Improved chunking strategy by linking them and using metadata<br>- Support multimodality|
+|**LLM Interaction**|- Prompt templates to faciliate interactions<br>- Very flexible, easily defining chains and using different modules. Choose the promptying strategy, model, and output parser from many options<br>- Can directly interact with LLMs and create chains without the need to have additional data|- Mostly use LLMs in the context of manipulating data. Either for indexing or querying.|
+|**Optimizations**||- LLM fine-tuning<br>- Embedding fine-tuning|
+|**Querying**|- Use retriever functions|- Advanced indexing/querying techniques like subquestions, HyDe,...<br>Routing: enable to use multiple data sources|
+|**Agents**|- LangSmith|- LlamaHub|
+|**Scope**| - Broader (building blocks)<br>- aims to standardize and make interoperable interactions with LLMs for a wide range of use cases  | - more specialized for document search, summarization, and management |
+|**Interface**| - lower level, more flexible and configurable | - new updates make interface simpler and more intuitive     |
+|**Storage/Indexing**| - in memory, vectordbs, simpler | - customize document structure    |
+|**Documentation**|- Easy to debug<br>- Easy to find concepts and understand the function usage|- A bit harder to debug and to understand the documentation|
+|**Pricing**|Free (MIT License)|Free (MIT License)|
 
-- composable
-- easy to get started
-- flexible
-####
-- composable(getting there)
-- index management
-- compose your own memory structure
+Source:
+- https://youtu.be/g84uWgVXVYg?si=CpN8mjH2ufWj3vK7
+- https://youtu.be/I4Jd4oaELtc?si=bzzMEgvdaUOViFrr
