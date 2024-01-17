@@ -1,8 +1,8 @@
-# rag-local-llama
+# rag-local-llm
 
 ## Overview
 
-**rag-local-llama** is a practice project centered around Retrieval-Augmented Generation (RAG) using LangChain, LlamaIndex, and a local Language Model (LLM) within separate Jupyter Notebooks. This simple setup allows for hands-on experience in building a basic RAG system, with LangChain as well as LlamaIndex, and the local LLM for query-based content generation. Ideal for learners looking to understand the fundamentals of RAG in a straightforward manner.
+**rag-local-llm** is a practice project centered around Retrieval-Augmented Generation (RAG) using LangChain, LlamaIndex, and a local Large Language Model (LLM) within separate Jupyter Notebooks. This simple setup allows for hands-on experience in building a basic RAG system, with LangChain as well as LlamaIndex, and the local LLM for query-based content generation. Ideal for learners looking to understand the fundamentals of RAG in a straightforward manner.
 
 ## Install dependencies
 
