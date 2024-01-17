@@ -2,25 +2,7 @@ import sys
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.document_loaders import WebBaseLoader
 import os
-# in LangChain, it's not able to use url to create an instance of LLM
-# Make sure you have run rag-llama-index.ipynb first to download the model or 
-# download it manually from 'https://huggingface.co/TheBloke/Llama-2-7B-Chat-GGUF/resolve/main/llama-2-7b-chat.Q4_K_M.gguf' and put it in './models/'
-
-# Get the user's home directory
-user_home = os.path.expanduser("~")
-
-# Construct the path to the 'llama_index\models' directory
-model_path = os.path.join(user_home, 'AppData', 'Local', 'llama_index', 'models', "llama-2-7b-chat.Q4_K_M.gguf")
-
-# Check if the path is valid
-if os.path.exists(model_path):
-    print(f"The path {model_path} is valid.")
-else:
-    print(f"The path {model_path} is not valid or does not exist.\nSetting model_path to './models/llama-2-7b-chat.Q4_K_M.gguf'.\nYou can download the model manually from 'https://huggingface.co/TheBloke/Llama-2-7B-Chat-GGUF/resolve/main/llama-2-7b-chat.Q4_K_M.gguf' and put it in './models/'")
-    model_path = './models/llama-2-7b-chat.Q4_K_M.gguf'
-
-# model_path ='./models/llama-2-7b-chat.Q4_K_M.gguf'
-# model_path = './models/mistral-7b-instruct-v0.2.Q4_K_M.gguf'
+from constants import MODEL_PATH
 
 loader = WebBaseLoader("https://lilianweng.github.io/posts/2023-06-23-agent/")
 data = loader.load()
@@ -47,7 +29,7 @@ n_gpu_layers = 1  # Metal set to 1 is enough.
 n_batch = 512  # Should be between 1 and n_ctx, consider the amount of RAM of your Apple Silicon Chip.
 
 llm = LlamaCpp(        
-    model_path=model_path,
+    model_path=MODEL_PATH,
     n_gpu_layers=n_gpu_layers,
     n_batch=n_batch,
     n_ctx=2048,

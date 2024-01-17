@@ -1,0 +1,1 @@
+MODEL_PATH = './models/llama-2-7b-chat.Q4_K_M.gguf'
