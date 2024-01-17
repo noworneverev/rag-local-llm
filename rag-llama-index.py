@@ -8,7 +8,7 @@ from llama_index.llms.llama_utils import (
     messages_to_prompt,
     completion_to_prompt,
 )
-from constants import MODEL_PATH
+from config import MODEL_PATH
 
 # model_path = './models/llama-2-7b-chat.Q4_K_M.gguf'
 # model_path = './models/mistral-7b-instruct-v0.2.Q4_K_M.gguf'

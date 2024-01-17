@@ -2,7 +2,7 @@ import sys
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.document_loaders import WebBaseLoader
 import os
-from constants import MODEL_PATH
+from config import MODEL_PATH
 
 loader = WebBaseLoader("https://lilianweng.github.io/posts/2023-06-23-agent/")
 data = loader.load()
