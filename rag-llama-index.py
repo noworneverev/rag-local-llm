@@ -41,47 +41,52 @@ llm = LlamaCPP(
 # for response in response_iter:
 #     print(response.delta, end="", flush=True)
 
-################### Query engine set up with LlamaCPP ###################
+# ################### German Test ###################
 
-from llama_index import set_global_tokenizer
-from transformers import AutoTokenizer
+response = llm.complete("Was ist deine Meinung zu künstlicher Intelligenz? Antwort auf Deutsch bitte.")
+print(response.text)
 
-set_global_tokenizer(
-    AutoTokenizer.from_pretrained("NousResearch/Llama-2-7b-chat-hf").encode
-)
+# ################### Query engine set up with LlamaCPP ###################
 
-# use Huggingface embeddings
-from llama_index.embeddings import HuggingFaceEmbedding
+# from llama_index import set_global_tokenizer
+# from transformers import AutoTokenizer
 
-embed_model = HuggingFaceEmbedding(model_name="BAAI/bge-small-en-v1.5")
-text_embedding = embed_model.get_text_embedding("hello world")
-print(len(text_embedding))
+# set_global_tokenizer(
+#     AutoTokenizer.from_pretrained("NousResearch/Llama-2-7b-chat-hf").encode
+# )
 
-# create a service context
-service_context = ServiceContext.from_defaults(
-    llm=llm,
-    embed_model=embed_model,
-)
+# # use Huggingface embeddings
+# from llama_index.embeddings import HuggingFaceEmbedding
 
-# load documents
-documents = SimpleDirectoryReader(
-    input_files=["./docs/eBook-How-to-Build-a-Career-in-AI.pdf"]
-).load_data()
+# embed_model = HuggingFaceEmbedding(model_name="BAAI/bge-small-en-v1.5")
+# text_embedding = embed_model.get_text_embedding("hello world")
+# print(len(text_embedding))
 
-# create vector store index
-index = VectorStoreIndex.from_documents(
-    documents, service_context=service_context
-)
+# # create a service context
+# service_context = ServiceContext.from_defaults(
+#     llm=llm,
+#     embed_model=embed_model,
+# )
 
-# set up query engine
-query_engine = index.as_query_engine(streaming=True)
+# # load documents
+# documents = SimpleDirectoryReader(
+#     input_files=["./docs/eBook-How-to-Build-a-Career-in-AI.pdf"]
+# ).load_data()
 
-def query(query_str):
-    streaming_response = query_engine.query(query_str)
-    streaming_response.print_response_stream()
+# # create vector store index
+# index = VectorStoreIndex.from_documents(
+#     documents, service_context=service_context
+# )
 
-query("Who is the author of the book?")
-query("What is the author's favoriate quote?")
-query("how do I get started on a personal project in AI?")
-query("How do I build a portfolio of AI projects?")
-query("Summarize the book in 500 words.")
+# # set up query engine
+# query_engine = index.as_query_engine(streaming=True)
+
+# def query(query_str):
+#     streaming_response = query_engine.query(query_str)
+#     streaming_response.print_response_stream()
+
+# query("Who is the author of the book?")
+# query("What is the author's favoriate quote?")
+# query("how do I get started on a personal project in AI?")
+# query("How do I build a portfolio of AI projects?")
+# query("Summarize the book in 500 words.")
